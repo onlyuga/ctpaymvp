@@ -1,0 +1,5 @@
+include ':app', ':core', ':wiget'
+include ':iMUtils'
+include ':iMNetwork'
+project(':iMUtils').projectDir = new File("C:\\Users\\K53SV\\Desktop\\IFS\\Code\\IfsModule\\utils")
+project(':iMNetwork').projectDir = new File("C:\\Users\\K53SV\\Desktop\\IFS\\Code\\IfsModule\\network")
