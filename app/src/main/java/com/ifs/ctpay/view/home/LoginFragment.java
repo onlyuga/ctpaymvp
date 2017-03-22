@@ -85,8 +85,12 @@ public class LoginFragment extends BaseFragment implements LoginContract.View  {
 
     public void loginSuccess(boolean success){
         //showForm(true);
-        Toast.makeText(getActivity(),"Login - success", Toast.LENGTH_SHORT).show();
-        RxBus.publish(RxBus.SUBJECT_MY_SUBJECT, "Login-success");
+        if(success) {
+            Toast.makeText(getActivity(), "Login - success", Toast.LENGTH_SHORT).show();
+            RxBus.publish(RxBus.SUBJECT_MY_SUBJECT, "Login-success");
+        }else {
+            Toast.makeText(getActivity(), "Login - failed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

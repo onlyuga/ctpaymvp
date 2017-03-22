@@ -16,9 +16,10 @@
 
     <FrameLayout
         android:layout_below="@id/fragment_banner"
+        android:layout_above="@+id/fragment_promotion"
         android:id="@+id/fragment_body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"

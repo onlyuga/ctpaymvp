@@ -2,10 +2,7 @@ package com.ifs.ctpay.presenter;
 
 import android.content.Context;
 
-import com.ifs.ctpay.activities.home.module.FragmentHomeModule;
-import com.ifs.ctpay.contract.BannerContract;
 import com.ifs.ctpay.contract.HomeContract;
-import com.ifs.ctpay.presenter.component.DaggerHomePresenterComponent;
 import com.ifs.ctpay.presenter.home.BannerPresenter;
 import com.ifs.ctpay.presenter.home.HomeBodyPresenter;
 import com.ifs.ctpay.presenter.home.LoginPresenter;

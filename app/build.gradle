@@ -13,6 +13,8 @@ buildscript {
 }
 
 repositories {
+    mavenCentral()
+    mavenLocal()
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -56,6 +58,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':core')
     compile project(':wiget')
+    compile project(':iMNetwork')
 
     //compile rootProject.ext.dependencies["carbon"]
     compile 'com.joanzapata.iconify:android-iconify-simplelineicons:2.2.2' // (v1.0.0)
@@ -63,6 +66,8 @@ dependencies {
     compile 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2' // (v4.5)
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.vajro:MaterialDesignLibrary:1.6'
+    compile 'com.github.markushi:circlebutton:1.1'
+
 
 
     compile rootProject.ext.dependencies["constrain-layout"]

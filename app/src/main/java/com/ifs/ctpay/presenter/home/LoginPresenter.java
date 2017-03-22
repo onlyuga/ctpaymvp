@@ -1,13 +1,12 @@
 package com.ifs.ctpay.presenter.home;
 
 import android.content.Context;
-import android.util.Base64;
 import android.util.Patterns;
 
 import com.ifs.ctpay.app.AppModule;
-import com.ifs.ctpay.app.CTPayApp;
 import com.ifs.ctpay.app.GitHubService;
 import com.ifs.ctpay.contract.LoginContract;
+import com.ifs.ctpay.controller.AuthenticationController;
 import com.ifs.ctpay.presenter.component.DaggerPresenterComponent;
 import com.ifs.ctpay.util.ActivityScoped;
 import com.ifs.ctpay.util.AuthUtils;
@@ -33,6 +32,9 @@ public class LoginPresenter implements LoginContract.Presenter  {
 
     @Inject
     GitHubService gitHubService;
+
+    @Inject
+    AuthenticationController autService;
 
     @Inject
     public LoginPresenter(Context context, LoginContract.View view) {
@@ -72,22 +74,25 @@ public class LoginPresenter implements LoginContract.Presenter  {
         }
 
         view.showForm(false);
-        signin(username,password);
+        signIn(username,password);
     }
 
-    private void signin(String username, String password){
-        String token = "Basic " + Base64.encodeToString((username+":"+password).getBytes(), Base64.NO_WRAP);
-        Subscription subscription = gitHubService.signIn(token)
-                .doOnNext(user -> AuthUtils.setToken(token))
-                .compose(Utils.applySchedulers())
-                .subscribe(user -> {
+    private void signIn(String username, String password){
+        Subscription subscription = autService.authenticate(username, password)
+                .doOnNext(m -> view.showForm(true))
+                .doOnNext(m -> {
+                    if(m.Error!=0){
+                        view.loginSuccess(false);
+                    }
+                })
+                .filter(m -> m.Error==0)
+                .map(m -> m.Data)
+                .subscribe(m -> {
+                    AuthUtils.setClient(m.ClientId);
                     view.loginSuccess(true);
-                }, exception -> {
-                   view.loginSuccess(false);
-                    exception.fillInStackTrace();
-                });
-        subscriptions.add(subscription);
+                }, Throwable::printStackTrace);
 
+        subscriptions.add(subscription);
     }
 
     @Override

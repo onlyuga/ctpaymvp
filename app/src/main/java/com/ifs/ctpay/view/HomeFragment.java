@@ -36,6 +36,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
+        assert presenter != null;
+        presenter.subscribe();
+
         return rootView;
     }
 
@@ -48,8 +51,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        assert presenter != null;
-        presenter.subscribe();
+
     }
 
 

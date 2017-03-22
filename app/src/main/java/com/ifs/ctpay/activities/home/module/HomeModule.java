@@ -3,6 +3,7 @@ package com.ifs.ctpay.activities.home.module;
 
 import com.ifs.ctpay.contract.HomeContract;
 import com.ifs.ctpay.contract.StrangerContract;
+import com.ifs.ctpay.contract.money.MoneyContract;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,21 +14,21 @@ import dagger.Provides;
 
 @Module
 public class HomeModule {
-    private HomeContract.View view;
-    private StrangerContract.View v;
+    private HomeContract.View homeView;
+    private MoneyContract.View moneyView;
 
-    public HomeModule(HomeContract.View view, StrangerContract.View v) {
-        this.v = v;
-        this.view = view;
+    public HomeModule(HomeContract.View homeView, MoneyContract.View moneyView) {
+        this.homeView = homeView;
+        this.moneyView = moneyView;
     }
 
     @Provides
     HomeContract.View provideHomePageContractView() {
-        return view;
+        return homeView;
     }
 
     @Provides
-    StrangerContract.View provideStrangerContractView() {
-        return v;
+    MoneyContract.View provideMoneyView() {
+        return moneyView;
     }
 }
