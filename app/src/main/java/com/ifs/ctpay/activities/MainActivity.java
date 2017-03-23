@@ -3,25 +3,19 @@ package com.ifs.ctpay.activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.ifs.ctpay.R;
 import com.ifs.ctpay.activities.home.component.DaggerHomeComponent;
 import com.ifs.ctpay.activities.home.module.HomeModule;
 import com.ifs.ctpay.app.CTPayApp;
 import com.ifs.ctpay.presenter.HomePresenter;
-import com.ifs.ctpay.presenter.StrangerPresenter;
 import com.ifs.ctpay.presenter.money.MoneyPresenter;
-import com.ifs.ctpay.rx.RxBus;
-import com.ifs.ctpay.util.FragmentData;
 import com.ifs.ctpay.view.HomeFragment;
-import com.ifs.ctpay.view.StrangerFragment;
-import com.ifs.core.activity.BaseActivity;
 import com.ifs.core.util.ActivityUtils;
 import com.ifs.ctpay.view.money.MoneyFragment;
+import com.ifs.imobile.network.app.BaseActivity;
 import com.ifs.wiget.bottombar.BottomBar;
 import com.ifs.wiget.bottombar.BottomBarTab;
 import com.ifs.wiget.bottombar.OnTabClickListener;
@@ -67,14 +61,6 @@ public class MainActivity extends BaseActivity {
                 .homeModule(new HomeModule(homePageFragment, moneyFragment))
                 .build().inject(this);
 
-        RxBus.subscribe(RxBus.SUBJECT_MY_SUBJECT, "F1", message -> {
-            if (message instanceof FragmentData) {
-                FragmentData fragmentData = (FragmentData) message;
-                ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), fragmentData.getFragment(), fragmentData.getView());
-                Log.v("Testing", message.toString());
-            }
-        });
-
         setUpBottomBar();
 
         CTPayApp.getInstance().initialize();
@@ -109,7 +95,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        RxBus.unregister("F1");
     }
 
     @Override
@@ -132,5 +117,11 @@ public class MainActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void requiredAuthentication() {
+        super.requiredAuthentication();
+        homePresenter.setIsAut(false);
     }
 }

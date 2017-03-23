@@ -9,6 +9,9 @@ import com.ifs.ctpay.presenter.home.LoginPresenter;
 import com.ifs.ctpay.presenter.home.PromotionPresenter;
 import com.ifs.ctpay.rx.RxBus;
 import com.ifs.ctpay.util.ActivityScoped;
+import com.ifs.ctpay.util.AuthUtils;
+import com.ifs.ctpay.util.PrefUtils;
+import com.ifs.ctpay.util.Utils;
 import com.ifs.ctpay.view.home.BannerFragment;
 import com.ifs.ctpay.view.home.HomeBodyFragment;
 import com.ifs.ctpay.view.home.LoginFragment;
@@ -22,10 +25,15 @@ import rx.subscriptions.CompositeSubscription;
 public class HomePresenter implements HomeContract.Presenter {
     private Context context;
     private static final String TAG = HomePresenter.class.getSimpleName();
-
+    private boolean isAuth;
     private final HomeContract.View view;
 
     private CompositeSubscription subscriptions;
+
+    public void setIsAut(boolean isAuth){
+        this.isAuth = isAuth;
+        loadBodyFragment();
+    }
 
     @Inject
     HomePresenter(Context context, HomeContract.View view) {
@@ -33,15 +41,17 @@ public class HomePresenter implements HomeContract.Presenter {
         this.view = view;
         this.subscriptions = new CompositeSubscription();
         view.setPresenter(this);
+        isAuth = false;
     }
 
 
     @Override
     public void subscribe() {
         loadFragment(1);
-        RxBus.subscribe(RxBus.SUBJECT_MY_SUBJECT, "Login", data ->{
+        RxBus.subscribe(RxBus.SUBJECT_MY_SUBJECT, "Login", data -> {
             String message = (String) data;
-            if(message.equals("Login-success")){
+            if (message.equals("Login-success")) {
+                isAuth = true;
                 HomeBodyFragment mHomeBodyFragment = new HomeBodyFragment();
                 new HomeBodyPresenter(context, mHomeBodyFragment);
                 view.showBody(mHomeBodyFragment);
@@ -61,12 +71,22 @@ public class HomePresenter implements HomeContract.Presenter {
         new BannerPresenter(context, mBannerFragment);
         view.showBanner(mBannerFragment);
 
-        LoginFragment mLoginFragment = new LoginFragment();
-        new LoginPresenter(context, mLoginFragment);
-        view.showBody(mLoginFragment);
-
         PromotionFragment mPromotionFragment = new PromotionFragment();
         new PromotionPresenter(context, mPromotionFragment);
         view.showPromotion(mPromotionFragment);
+
+        loadBodyFragment();
+    }
+
+    private void loadBodyFragment(){
+        if (!isAuth) {
+            LoginFragment mLoginFragment = new LoginFragment();
+            new LoginPresenter(context, mLoginFragment);
+            view.showBody(mLoginFragment);
+        } else {
+            HomeBodyFragment mHomeBodyFragment = new HomeBodyFragment();
+            new HomeBodyPresenter(context, mHomeBodyFragment);
+            view.showBody(mHomeBodyFragment);
+        }
     }
 }

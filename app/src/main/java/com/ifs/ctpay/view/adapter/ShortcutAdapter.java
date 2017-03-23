@@ -37,8 +37,9 @@ public class ShortcutAdapter extends RecyclerView.Adapter<ShortcutAdapter.Shortc
 
     @Override
     public void onBindViewHolder(ShortcutHolder holder, int position) {
+        ShortcutModel model = models.get(position);
         holder.btn.setImageResource(R.drawable.contacts_50);
-        holder.tvTitle.setText("Hello android");
+        holder.tvTitle.setText(model.title);
     }
 
     @Override

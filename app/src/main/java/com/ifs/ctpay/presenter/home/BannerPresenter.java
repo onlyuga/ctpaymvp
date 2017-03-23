@@ -24,6 +24,7 @@ public class BannerPresenter implements BannerContract.Presenter  {
     private static final String TAG = BannerPresenter.class.getSimpleName();
     private CompositeSubscription subscriptions;
 
+
     private Context context;
     private final BannerContract.View view;
 
@@ -34,6 +35,7 @@ public class BannerPresenter implements BannerContract.Presenter  {
         this.subscriptions = new CompositeSubscription();
         view.setPresenter(this);
     }
+
     @Override
     public void subscribe() {
         view.showBanner(null);

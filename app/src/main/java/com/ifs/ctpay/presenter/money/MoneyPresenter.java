@@ -54,19 +54,19 @@ public class MoneyPresenter implements MoneyContract.Presenter {
 
     @Override
     public void getMenuDeposit() {
-        view.showDeposit(Stream.range(0,4).map(i -> new ShortcutModel(i,"Deposit " +1, new Fragment())).collect(Collectors.toList()));
+        view.showDeposit(Stream.range(0,4).map(i -> new ShortcutModel(i,"Deposit " +i, new Fragment())).collect(Collectors.toList()));
 
     }
 
     @Override
     public void getMenuTransfer() {
-        view.showTransfer(Stream.range(0,4).map(i -> new ShortcutModel(i,"Transfer " +1, new Fragment())).collect(Collectors.toList()));
+        view.showTransfer(Stream.range(0,4).map(i -> new ShortcutModel(i,"Transfer " +i, new Fragment())).collect(Collectors.toList()));
 
     }
 
     @Override
     public void getMenuAcountManager() {
-        view.showAccountManager(Stream.range(0,4).map(i -> new ShortcutModel(i,"Manager " +1, new Fragment())).collect(Collectors.toList()));
+        view.showAccountManager(Stream.range(0,4).map(i -> new ShortcutModel(i,"Manager " +i, new Fragment())).collect(Collectors.toList()));
 
     }
 }
